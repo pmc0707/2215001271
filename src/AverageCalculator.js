@@ -8,9 +8,10 @@ const AverageCalculator = () => {
 
   const handleFetch = async () => {
     try {
-      const response = await axios.get('http://20.244.56.144/evaluation-service/fibo', {
+      const response = await axios.get('http://20.244.56.144/evaluation-service/fibo',
+         {
         headers: {
-          'Authorization': 'Bearer YOUR_API_KEY_HERE' 
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGfpbXMiOnsiZXhwIjoxNzQzNTc0MzQ0LCJpYXQiOjE3NDM1NzQwNDQsImIzcyI6IkFmZm9yZG1lZCI5Imp0cNDhNS04ZDU5LThiMWJlZmE4MTZkYSIsInNlY1Yi6InJhbHtyaXNobmFAYWJjLmVkdsJ9LCJlbWFpbCI6InJhbHtyaXNobmFAYWJjLmVkdsIsIm5hbWUiOiJyW0ga3Jpc2huyYSIsInJvbGVyOiImFhMJiiwiYWNjZXNzQ29kZS6InhnQXNOQyIsImNsaWVudEljoiZDljYmI2OTktNmEyN0ONE1LThkNTktoGlXYmVmYTgxNmRhiIwiV2xpZW50U2VuYcmV0joidFZKWFhuKJTZvhJulhlTSJ9.YApD98gq0IN_0Ww7JMfmuUfK1m4hLTm7AlcLDcLAZvG' 
         }
       });
 
