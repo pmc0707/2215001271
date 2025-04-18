@@ -2,60 +2,54 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const AverageCalculator = () => {
-  const [numbers, setNumbers] = useState('');
   const [average, setAverage] = useState(null);
+  const [data, setData] = useState([]);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const numArray = numbers
-      .split(',')
-      .map(n => n.trim())
-      .map(Number)
-      .filter(n => !isNaN(n));
-
-    if (numArray.length === 0) {
-      setError('Please enter at least one valid number.');
-      return;
-    }
-
+  const handleFetch = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/average', {
-        numbers: numArray,
-      });
+      const response = await axios.get('http://20.244.56.144/evaluation-service/fibo');
 
-      setAverage(response.data.average);
+      const numArray = response.data;
+
+      if (!Array.isArray(numArray) || numArray.length === 0) {
+        setError('Invalid data received from the API.');
+        setAverage(null);
+        return;
+      }
+
+      const avg = numArray.reduce((acc, val) => acc + val, 0) / numArray.length;
+
+      setData(numArray);
+      setAverage(avg.toFixed(2));
       setError('');
     } catch (err) {
-      setError(err.response?.data?.error || 'An error occurred');
+      setError(err.response?.data?.error || 'Failed to fetch data.');
       setAverage(null);
+      setData([]);
     }
   };
 
   return (
     <div style={{ maxWidth: '400px', margin: 'auto' }}>
-      <h2>Average Calculator</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={numbers}
-          onChange={(e) => setNumbers(e.target.value)}
-          placeholder="Enter numbers separated by commas"
-          style={{ width: '100%', padding: '8px' }}
-        />
-        <button type="submit" style={{ marginTop: '10px' }}>Calculate</button>
-      </form>
+      <h2>Average Calculator (Fibonacci API)</h2>
+      <button onClick={handleFetch} style={{ marginTop: '10px' }}>Fetch & Calculate</button>
+
+      {data.length > 0 && (
+        <div style={{ marginTop: '20px' }}>
+          <strong>Numbers:</strong> {data.join(', ')}
+        </div>
+      )}
 
       {average !== null && (
         <div style={{ marginTop: '20px', color: 'green' }}>
-          Average: {average}
+          <strong>Average:</strong> {average}
         </div>
       )}
 
       {error && (
         <div style={{ marginTop: '20px', color: 'red' }}>
-          Error: {error}
+          <strong>Error:</strong> {error}
         </div>
       )}
     </div>
