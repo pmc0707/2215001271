@@ -11,3 +11,71 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* 
+
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const AverageCalculator = () => {
+  const [numbers, setNumbers] = useState('');
+  const [average, setAverage] = useState(null);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const numArray = numbers
+      .split(',')
+      .map(n => n.trim())
+      .map(Number)
+      .filter(n => !isNaN(n));
+
+    if (numArray.length === 0) {
+      setError('Please enter at least one valid number.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5000/average', {
+        numbers: numArray,
+      });
+
+      setAverage(response.data.average);
+      setError('');
+    } catch (err) {
+      setError(err.response?.data?.error || 'An error occurred');
+      setAverage(null);
+    }
+  };
+
+  return (
+    <div style={{ maxWidth: '400px', margin: 'auto' }}>
+      <h2>Average Calculator</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={numbers}
+          onChange={(e) => setNumbers(e.target.value)}
+          placeholder="Enter numbers separated by commas"
+          style={{ width: '100%', padding: '8px' }}
+        />
+        <button type="submit" style={{ marginTop: '10px' }}>Calculate</button>
+      </form>
+
+      {average !== null && (
+        <div style={{ marginTop: '20px', color: 'green' }}>
+          Average: {average}
+        </div>
+      )}
+
+      {error && (
+        <div style={{ marginTop: '20px', color: 'red' }}>
+          Error: {error}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AverageCalculator; */

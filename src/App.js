@@ -1,42 +1,65 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './App.css';
 
-function App() {
+const AverageCalculator = () => {
   const [numbers, setNumbers] = useState('');
   const [average, setAverage] = useState(null);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const numberList = numbers.split(',').map(n => parseFloat(n.trim())).filter(n => !isNaN(n));
+
+    const numArray = numbers
+      .split(',')
+      .map(n => n.trim())
+      .map(Number)
+      .filter(n => !isNaN(n));
+
+    if (numArray.length === 0) {
+      setError('Please enter at least one valid number.');
+      return;
+    }
 
     try {
-      const res = await axios.post('http://localhost:5000/average', { numbers: numberList });
-      setAverage(res.data.average);
+      const response = await axios.post('http://localhost:5000/average', {
+        numbers: numArray,
+      });
+
+      setAverage(response.data.average);
       setError('');
     } catch (err) {
+      setError(err.response?.data?.error || 'An error occurred');
       setAverage(null);
-      setError(err.response?.data?.error || 'Something went wrong.');
     }
   };
 
   return (
-    <div className="App">
-      <h1>Average Calculator</h1>
+    <div style={{ maxWidth: '400px', margin: 'auto' }}>
+      <h2>Average Calculator</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Enter numbers separated by commas"
           value={numbers}
           onChange={(e) => setNumbers(e.target.value)}
+          placeholder="Enter numbers separated by commas"
+          style={{ width: '100%', padding: '8px' }}
         />
-        <button type="submit">Calculate</button>
+        <button type="submit" style={{ marginTop: '10px' }}>Calculate</button>
       </form>
-      {average !== null && <h2>Average: {average}</h2>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {average !== null && (
+        <div style={{ marginTop: '20px', color: 'green' }}>
+          Average: {average}
+        </div>
+      )}
+
+      {error && (
+        <div style={{ marginTop: '20px', color: 'red' }}>
+          Error: {error}
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default App;
+export default AverageCalculator;
