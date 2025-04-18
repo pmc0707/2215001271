@@ -10,7 +10,7 @@ const endpoints = {
   rand: 'rand'
 };
 
-const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGfpbXMiOnsiZXhwIjoxNzQzNTc0MzQ0LCJpYXQiOjE3NDM1NzQwNDQsImIzcyI6IkFmZm9yZG1lZCI5Imp0cNDhNS04ZDU5LThiMWJlZmE4MTZkYSIsInNlY1Yi6InJhbHtyaXNobmFAYWJjLmVkdsJ9LCJlbWFpbCI6InJhbHtyaXNobmFAYWJjLmVkdsIsIm5hbWUiOiJyW0ga3Jpc2huyYSIsInJvbGVyOiImFhMJiiwiYWNjZXNzQ29kZS6InhnQXNOQyIsImNsaWVudEljoiZDljYmI2OTktNmEyN0ONE1LThkNTktoGlXYmVmYTgxNmRhiIwiV2xpZW50U2VuYcmV0joidFZKWFhuKJTZvhJulhlTSJ9.YApD98gq0IN_0Ww7JMfmuUfK1m4hLTm7AlcLDcLAZvG'; 
+const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYXBDbGlpbXMiOnsiZXhwIjoxNzQzNTc0MzQ0LCJpYXQiOjE3NDM1NzQwNDQsImIzcyI6IkFmZm9yZG1lZCI5Imp0cNDhNS04ZDU5LThiMWJlZmE4MTZkYSIsInNlY1Yi6InJhbHtyaXNobmFAYWJjLmVkdsJ9LCJlbWFpbCI6InJhbHtyaXNobmFAYWJjLmVkdsIsIm5hbWUiOiJyW0ga3Jpc2huyYSIsInJvbGVyOiImFhMJiiwiYWNjZXNzQ29kZS6InhnQXNOQyIsImNsaWVudEljoiZDljYmI2OTktNmEyN0ONE1LThkNTktoGlXYmVmYTgxNmRhiIwiV2xpZW50U2VuY3JldjoidFZKWFhuKJTZvhJulhlTSJ9.YApD98gq0IN_0Ww7JMfmuUfK1m4hLTm7AlcLDcLAZvG'; 
 
 const AverageCalculator = () => {
   const [results, setResults] = useState({
@@ -57,36 +57,40 @@ const AverageCalculator = () => {
   };
 
   const renderSection = (label, type) => (
-    <div style={{ marginTop: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '6px' }}>
-      <h3>{label}</h3>
+    <div style={{ marginTop: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)' }}>
+      <h3 style={{ fontSize: '1.25rem', color: '#333', marginBottom: '15px' }}>{label}</h3>
       <button
         onClick={() => fetchAndCalculate(type)}
         style={{
-          padding: '10px 16px',
+          padding: '12px 18px',
           cursor: 'pointer',
-          backgroundColor: '#28a745',
+          backgroundColor: '#007bff',
           color: '#fff',
           border: 'none',
-          borderRadius: '5px'
+          borderRadius: '5px',
+          fontSize: '1rem',
+          transition: 'background-color 0.3s ease',
         }}
+        onMouseEnter={(e) => e.target.style.backgroundColor = '#0056b3'}
+        onMouseLeave={(e) => e.target.style.backgroundColor = '#007bff'}
       >
         Fetch & Calculate
       </button>
 
       {results[type].data.length > 0 && (
-        <div style={{ marginTop: '15px' }}>
-          <strong>Numbers:</strong> {results[type].data.join(', ')}
+        <div style={{ marginTop: '15px', color: '#333' }}>
+          <strong style={{ color: '#007bff' }}>Numbers:</strong> {results[type].data.join(', ')}
         </div>
       )}
 
       {results[type].average !== null && (
-        <div style={{ marginTop: '10px', color: 'green' }}>
+        <div style={{ marginTop: '10px', color: '#28a745' }}>
           <strong>Average:</strong> {results[type].average}
         </div>
       )}
 
       {results[type].error && (
-        <div style={{ marginTop: '10px', color: 'red' }}>
+        <div style={{ marginTop: '10px', color: '#dc3545' }}>
           <strong>Error:</strong> {results[type].error}
         </div>
       )}
@@ -94,8 +98,8 @@ const AverageCalculator = () => {
   );
 
   return (
-    <div style={{ maxWidth: '700px', margin: '40px auto', fontFamily: 'Arial, sans-serif' }}>
-      <h2>Average Calculator (Fibonacci, Even, Prime, Random)</h2>
+    <div style={{ maxWidth: '800px', margin: '40px auto', fontFamily: 'Arial, sans-serif', padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+      <h2 style={{ textAlign: 'center', fontSize: '2rem', color: '#333', marginBottom: '30px' }}>Average Calculator (Fibonacci, Even, Prime, Random)</h2>
       {renderSection('Fibonacci Numbers', 'fibo')}
       {renderSection('Even Numbers', 'even')}
       {renderSection('Prime Numbers', 'prime')}
